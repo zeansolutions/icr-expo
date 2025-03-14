@@ -7,7 +7,7 @@ import SplashScreen from './components/SplashScreen';
 export default function App() {
   return (
     <>
-      <StatusBar backgroundColor="#000000" barStyle="light-content" />
+      <StatusBar backgroundColor="#222222" barStyle="light-content" />
       <SplashScreen />
     </>
   );

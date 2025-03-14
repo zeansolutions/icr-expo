@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Svg, { Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 import Animated, {
   useSharedValue,
@@ -80,6 +80,9 @@ const SplashScreen: React.FC = () => {
           eXpo
         </AnimatedSvgText>
       </Svg>
+
+      {/* I Can Read Text at the bottom */}
+      <Text style={styles.bottomText}>I Can Read</Text>
     </View>
   );
 };
@@ -89,8 +92,16 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black', // or darkslategray
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  bottomText: {
+    position: 'absolute',
+    bottom: 40, // Distance from bottom, adjust as needed
+    fontSize: 15,
+    color: 'darkgray',
+    textAlign: 'center',
+    letterSpacing: 5
   },
 });
