@@ -1,15 +1,14 @@
-import { Text, View } from "react-native";
+import React from 'react';
+import 'react-native-reanimated';
+import { StatusBar } from 'react-native';
+import SplashScreen from './components/SplashScreen';
 
-export default function Index() {
+
+export default function App() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <>
+      <StatusBar backgroundColor="#000000" barStyle="light-content" />
+      <SplashScreen />
+    </>
   );
 }
