@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import Svg, { Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text } from "react-native";
+import { useTheme } from "../theme/ThemeProvider";
+import Svg, {
+  Defs,
+  LinearGradient,
+  Stop,
+  Text as SvgText,
+} from "react-native-svg";
 import Animated, {
   useSharedValue,
   useAnimatedProps,
@@ -10,12 +16,14 @@ import Animated, {
   withDelay,
   interpolate,
   Easing,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 // Create an Animated version of the SvgText element
 const AnimatedSvgText = Animated.createAnimatedComponent(SvgText);
 
 const SplashScreen: React.FC = () => {
+  const { theme } = useTheme();
+
   const animationProgress = useSharedValue(0);
 
   useEffect(() => {
@@ -92,16 +100,16 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#222222",
+    justifyContent: "center",
+    alignItems: "center",
   },
   bottomText: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 40, // Distance from bottom, adjust as needed
     fontSize: 15,
-    color: 'darkgray',
-    textAlign: 'center',
-    letterSpacing: 5
+    color: "darkgray",
+    textAlign: "center",
+    letterSpacing: 5,
   },
 });
