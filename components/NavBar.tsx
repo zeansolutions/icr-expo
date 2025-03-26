@@ -25,7 +25,10 @@ const NavBar: React.FC<NavBarProps> = () => {
       
       {/* Logo and Phone Number */}
       <View style={styles.logoContainer}>
-        <Text style={[styles.phoneNumber, { color: theme.text }]}> (+20)109-038-7398 </Text>
+        <View style={styles.logoPhone}>
+          <Text style={[styles.phoneNumber, { color: theme.text }]}> (+20)109-038-7398 </Text>
+          <Ionicons name="call" size={15} color={ theme.text } />
+        </View>
         <Image source={require("../assets/images/logo.png")} style={styles.logo} />
       </View>
       
@@ -73,6 +76,11 @@ const styles = StyleSheet.create({
   logoContainer: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10
+  },
+  logoPhone: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   logo: {
     width: 40,

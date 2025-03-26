@@ -7,12 +7,13 @@ import {
   LayoutChangeEvent,
   Dimensions,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
 import NavBar from "../../components/NavBar";
+import BottomNavBar from "../../components/BottomNavBar";
 import i18n from "../../i18n";
 import { LinearGradient } from 'expo-linear-gradient';
+import LottieView from 'lottie-react-native';
 
 interface HomeProps {
   onLayout?: (event: LayoutChangeEvent) => void;
@@ -134,8 +135,20 @@ const Home: React.FC<HomeProps> = ({ onLayout }) => {
               </TouchableOpacity>
             </LinearGradient>
           </Animated.View>
+          <Animated.View
+            style={[
+              styles.animationContainer,
+              { transform: [{ scale: logoScale }], opacity: logoOpacity },
+            ]}
+          >
+            <LottieView
+              source={require('../../assets/images/animations/up.json')}
+              autoPlay
+              loop
+              style={styles.lottieAnimation}
+            />
+          </Animated.View>
         </View>
-
         <View style={styles.spacer} />
       </Animated.ScrollView>
 
@@ -147,6 +160,9 @@ const Home: React.FC<HomeProps> = ({ onLayout }) => {
       >
         {i18n.t("moreText")}
       </Animated.Text>
+
+      {/* <BottomNavBar onTabPress={(tab) => console.log("Selected Tab:", tab)} /> */}
+
     </View>
   );
 };
@@ -167,6 +183,16 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     height: height * 0.3,
     resizeMode: "contain",
+  },
+  animationContainer: {
+    width: width * 0.9,
+    height: height * 0.2,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  lottieAnimation: {
+    width: 50,
+    height: '100%',
   },
   logoText: {
     marginTop: 10,

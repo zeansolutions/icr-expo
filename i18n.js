@@ -10,7 +10,8 @@ const i18n = new I18n({
     moreText: 'للمزيد من الاخبار حول الملتقى',
     darkMode: 'الوضع الليلي',
     about: 'من نحن',
-    contactUs: 'تواصل معنا'
+    contactUs: 'تواصل معنا',
+    extraText: 'المزيد من الكتابات'
    },
 });
 
