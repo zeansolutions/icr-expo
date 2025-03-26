@@ -1,47 +1,205 @@
-import React from "react";
-import { View, Text, StyleSheet, LayoutChangeEvent } from "react-native";
+import React, { useRef, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Text,
+  LayoutChangeEvent,
+  Dimensions,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import NavBar from "../../components/NavBar"; // Adjust path as needed
+import NavBar from "../../components/NavBar";
+import i18n from "../../i18n";
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface HomeProps {
   onLayout?: (event: LayoutChangeEvent) => void;
 }
 
+const { width, height } = Dimensions.get("window");
+
 const Home: React.FC<HomeProps> = ({ onLayout }) => {
   const { theme } = useTheme();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
-  const handleMenuPress = () => {
-    console.log("Burger menu pressed! 🚀");
-    // You can open a drawer or do something else here
-  };
+  useEffect(() => {
+    const listenerId = scrollY.addListener(() => {
+      // Listener logic here
+    });
+    return () => {
+      scrollY.removeListener(listenerId);
+    };
+  }, [scrollY]);
+
+  const logoScale = scrollY.interpolate({
+    inputRange: [0, 150],
+    outputRange: [1, 0.7],
+    extrapolate: "clamp",
+  });
+
+  const logoOpacity = scrollY.interpolate({
+    inputRange: [0, 150],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
+
+  const textTranslateY = scrollY.interpolate({
+    inputRange: [0, 150],
+    outputRange: [0, -50],
+    extrapolate: "clamp",
+  });
+
+  const textOpacity = scrollY.interpolate({
+    inputRange: [0, 150],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
+
+  const buttonOpacity = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
+
+  const buttonTranslateY = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [0, -20],
+    extrapolate: "clamp",
+  });
+
+  const scrollTextOpacity = scrollY.interpolate({
+    inputRange: [80, 150],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
+  });
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]} onLayout={onLayout}>
-      {/* NavBar */}
-      <NavBar onMenuPress={handleMenuPress} />
+    <View
+      style={[styles.container, { backgroundColor: theme.background }]}
+      onLayout={onLayout}
+    >
+      <NavBar onMenuPress={() => console.log("Burger menu pressed! 🚀")} />
 
-      {/* Body */}
-      <View style={styles.content}>
-        <Text style={[styles.text, { color: theme.text }]}>Welcome to Home Screen!</Text>
-      </View>
+      <Animated.ScrollView
+        style={styles.scrollView}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.logoContainer}>
+          <Animated.Image
+            source={require("../../assets/images/logo.png")}
+            style={[
+              styles.logo,
+              { transform: [{ scale: logoScale }], opacity: logoOpacity },
+            ]}
+          />
+          <Animated.Text
+            style={[
+              styles.logoText,
+              {
+                transform: [{ translateY: textTranslateY }],
+                opacity: textOpacity,
+                color: theme.text,
+              },
+            ]}
+          >
+            {i18n.t("welcome")}
+          </Animated.Text>
+
+          <Animated.View
+            style={[
+              styles.buttonContainer,
+              {
+                opacity: buttonOpacity,
+                transform: [{ translateY: buttonTranslateY }],
+              },
+            ]}
+          >
+            <LinearGradient
+              colors={theme.primaryGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.gradientButton}
+            >
+              <TouchableOpacity onPress={() => console.log("اشترك")}>
+                <Text style={[styles.buttonText, { color: theme.text }]}>
+                  {i18n.t("register")}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </Animated.View>
+        </View>
+
+        <View style={styles.spacer} />
+      </Animated.ScrollView>
+
+      <Animated.Text
+        style={[
+          styles.scrollText,
+          { opacity: scrollTextOpacity, color: theme.text },
+        ]}
+      >
+        {i18n.t("moreText")}
+      </Animated.Text>
     </View>
   );
 };
-
-export default Home;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
+  scrollView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
   },
-  text: {
-    fontSize: 24,
-    marginBottom: 20,
+  logoContainer: {
+    width: width,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    width: width * 0.6,
+    height: height * 0.3,
+    resizeMode: "contain",
+  },
+  logoText: {
+    marginTop: 10,
+    fontSize: 18,
+    textAlign: "center",
+    padding: 20,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  gradientButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  spacer: {
+    height: 1000,
+  },
+  scrollText: {
+    position: "absolute",
+    top: height * 0.1,
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
+export default Home;

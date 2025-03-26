@@ -18,6 +18,7 @@ export default function App() {
   const { theme, colorScheme } = useTheme();
   const [barStyle, setBarStyle] = useState(theme.barstyle);
   const [appIsReady, setAppIsReady] = useState(false);
+  
 
   // Wait function for delay
   const wait = (timeout: number) => {
@@ -90,4 +91,8 @@ export default function App() {
       </SafeAreaView>   
     </>
   );
+}
+
+function enableRTL() {
+  throw new Error("Function not implemented.");
 }
