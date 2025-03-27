@@ -7,6 +7,7 @@ import {
   LayoutChangeEvent,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
 import NavBar from "../../components/NavBar";
@@ -14,12 +15,14 @@ import BottomNavBar from "../../components/BottomNavBar";
 import i18n from "../../i18n";
 import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 interface HomeProps {
   onLayout?: (event: LayoutChangeEvent) => void;
 }
 
 const { width, height } = Dimensions.get("window");
+const videoHeight = (width / 16) * 9;
 
 const Home: React.FC<HomeProps> = ({ onLayout }) => {
   const { theme } = useTheme();
@@ -152,14 +155,39 @@ const Home: React.FC<HomeProps> = ({ onLayout }) => {
         <View style={styles.spacer} />
       </Animated.ScrollView>
 
-      <Animated.Text
+      <Animated.View
         style={[
-          styles.scrollText,
-          { opacity: scrollTextOpacity, color: theme.text },
+          styles.nextSlide,
+          { opacity: scrollTextOpacity },
         ]}
       >
-        {i18n.t("moreText")}
-      </Animated.Text>
+        <Text style={[styles.nextSlideText, {color: theme.text}]}>{i18n.t("moreText")}</Text>  
+        
+        <LinearGradient
+          colors={theme.primaryGradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.goldenLine}
+        />
+        
+        <YoutubePlayer
+          width={width * 0.9}
+          height={videoHeight}
+          play={false}
+          videoId={'F9OlOASUYwg'} // Replace with your desired YouTube video ID
+        />
+
+        <LinearGradient
+          colors={theme.primaryGradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.goldenLine}
+        />
+
+        <View style={styles.videoText}>
+          <Text style={[styles.nextSlideText, {color: theme.text}]}>{i18n.t("extraText")}</Text>  
+        </View>
+      </Animated.View>
 
       {/* <BottomNavBar onTabPress={(tab) => console.log("Selected Tab:", tab)} /> */}
 
@@ -219,13 +247,28 @@ const styles = StyleSheet.create({
   spacer: {
     height: 1000,
   },
-  scrollText: {
+  nextSlide: {
     position: "absolute",
-    top: height * 0.1,
-    alignSelf: "center",
+    top: height * 0.1, // Adjust this to position it better
+    width: "100%",
+    alignItems: "center", // Centers horizontally
+    justifyContent: "center", // Centers vertically
+    pointerEvents: "none", // Allows touches to pass through to the ScrollView
+
+  },
+  nextSlideText: {
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: 'center'
   },
+  goldenLine: {
+    width: '90%',
+    height: 5,
+    marginVertical: 20
+  },
+  videoText: {
+    width: '90%',
+  }
 });
 
 export default Home;

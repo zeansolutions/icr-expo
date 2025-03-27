@@ -17,7 +17,7 @@ const NavBar: React.FC<NavBarProps> = () => {
   };
 
   return (
-    <View style={[styles.container, { borderBottomColor: theme.text }]}> 
+    <View style={[styles.container, { borderBottomColor: theme.borderColor }]}> 
       {/* Burger Menu */}
       <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.iconButton}>
         <Feather name="menu" size={28} color={theme.text} />
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 16,
+    borderBottomWidth: 1
   },
   logoContainer: {
     flexDirection: "row",

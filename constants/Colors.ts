@@ -3,8 +3,7 @@ export const LightColors = {
   text: '#3D3D3D',
   primaryGradient: ['#FFD700', '#FFC107', '#FFB300', '#E6A400'], // Gold gradient
   barstyle: 'dark-content',
-  iconColor: '#222222',
-  activeIconColor: '#0076FF'
+  borderColor: '#E0E0E0'
 };
 
 export const DarkColors = {
@@ -12,6 +11,5 @@ export const DarkColors = {
   text: '#E0E0E0',
   primaryGradient: ['#FFCC00', '#FFB300', '#E6A400', '#CC8E00'], // Darker gold gradient
   barstyle: 'light-content',
-  iconColor: '#FFFFFF',
-  activeIconColor: '#0076FF'
+  borderColor: '#3D3D3D'
 };
